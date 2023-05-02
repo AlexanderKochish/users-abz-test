@@ -19,7 +19,6 @@ const Form = () => {
   const createUser = async () => {
     await fetch(`${import.meta.env.VITE_BASE_URL}users`, {
       method: "POST",
-      mode: "cors",
       headers: {
         Authorization: "Bearer " + token,
       },
