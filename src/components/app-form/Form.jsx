@@ -3,12 +3,13 @@ import uploadImg from "../../assets/5007170.png";
 import { useEffect } from "react";
 import Button from "../UI/Button";
 import { AppService } from "../../service";
+import PositionsInputs from "./PositionsInputs";
 
 const Form = () => {
   const [token, setToken] = useState("");
   const [positions, setPositions] = useState([]);
   const appService = new AppService()
-
+  
   const getTokenAndPositions = async () => {
     const { token } = await appService.serviceFetch('token')
     const { positions } = await appService.serviceFetch('positions')
@@ -16,14 +17,27 @@ const Form = () => {
     setPositions(positions);
   };
 
-  const createUser = async () => {
-    await fetch(`${import.meta.env.VITE_BASE_URL}users`, {
+  const createUser = async (e) => {
+    e.preventDefault()
+    const userForm = e.target;
+    const formData = new FormData(userForm);
+    const res = await fetch(`${import.meta.env.VITE_BASE_URL}users`, {
       method: "POST",
+      body: formData,
       headers: {
-        Authorization: "Bearer " + token,
-      },
-      body: new FormData(formUser),
+        "Authorization": "Bearer " + token
+      }, 
     });
+    if(res.ok){
+      alert("New User Created")
+    }else{
+      alert("Pleace add to all fields on inputs")
+    }
+    userForm.querySelectorAll('input','input[type=radio]')
+    .forEach( el => {
+        if(el.value) el.value = '';
+        if(el.checked) el.checked = false;
+      })
   };
 
   useEffect(() => {
@@ -36,20 +50,18 @@ const Form = () => {
 
       <form
         onSubmit={createUser}
-        id="formUser"
         className="flex flex-col items-start space-y-2 bg-white rounded-lg shadow-lg p-5 w-72 sm:w-[350px]"
       >
-        <label htmlFor="name" className="font-semibold">
+        <label className="font-semibold">
           Name
         </label>
         <input
-          id="name"
           name="name"
           type="text"
           placeholder="Your Name"
           className="p-2 w-full outline-yellow-500 bg-cyan-100"
         />
-        <label htmlFor="" className="font-semibold">
+        <label className="font-semibold">
           Email
         </label>
         <input
@@ -58,7 +70,7 @@ const Form = () => {
           placeholder="Your Email"
           className="p-2 w-full outline-yellow-500 bg-cyan-100"
         />
-        <label htmlFor="" className="font-semibold">
+        <label className="font-semibold">
           Phone
         </label>
         <input
@@ -67,28 +79,15 @@ const Form = () => {
           placeholder="Your Phone"
           className="p-2 w-full outline-yellow-500 bg-cyan-100"
         />
-        <ul>
-          {positions.map(({ id, name }) => (
-            <li key={id} className="flex items-center">
-              <input
-                type="radio"
-                name="positionId"
-                id={name}
-                value={id}
-                className="mr-4"
-              />
-              <label htmlFor={name}>{name}</label>
-            </li>
-          ))}
-        </ul>
+          <PositionsInputs positions={positions}/>
         <label
-          htmlFor="photo"
+          htmlFor="img"
           className="flex items-center cursor-pointer bg-blue-300 w-full hover:bg-blue-400 duration-200"
         >
           <img className="w-10 h-10 mr-5" src={uploadImg} alt="img" />
           <strong>Upload Your Photo</strong>
         </label>
-        <input id="photo" name="photo" type="file" className="hidden" />
+        <input id="img" name="photo" type="file" className="hidden" />
           <Button>Sign Up</Button>
       </form>
     </div>
