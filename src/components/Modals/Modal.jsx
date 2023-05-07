@@ -1,19 +1,33 @@
 import Button from "../UI/Button";
+import { useDispatch, useSelector } from "react-redux";
+import { setActiveModal } from "../../store/slices/userSlice";
+import Spinner from "../UI/Spinner";
 
-const Modal = ({ activeMod, setActiveMod, user }) => {
-  const closeModal = () => setActiveMod(!activeMod);
+const Modal = () => {
+  const { activeModal, user, loading } = useSelector((state) => state.user)
+  const dispatch = useDispatch()
+  const closeModal = () => dispatch(setActiveModal())
+
+  const preloader = loading? <Spinner/> : <View user={user} closeModal={closeModal}/>;
 
   return (
     <div
       className={
-        activeMod
+        activeModal
           ? "fixed top-0 left-0 grid place-items-center w-full h-full bg-black/40"
           : "hidden"
       }
     >
-      <div className="bg-white sm:w-96 min-h-96 px-3 rounded-lg flex items-start justify-between flex-col">
+      {preloader}
+    </div>
+  );
+};
+
+const View = ({user,closeModal}) => {
+  return (
+    <div className="bg-white sm:w-96 min-h-96 px-3 rounded-lg flex items-start justify-between flex-col">
         <div className="flex items-center justify-between w-full">
-          <h3 className="text-2xl font-bold text-green-600 text-center">
+          <h3 className="text-2xl font-bold text-green-600 text-center mr-2">
             Info by {user?.name}
           </h3>
           <Button handler={closeModal}>X</Button>
@@ -38,8 +52,8 @@ const Modal = ({ activeMod, setActiveMod, user }) => {
           </p>
         </div>
       </div>
-    </div>
-  );
-};
+  )
+}
 
 export default Modal;
+
