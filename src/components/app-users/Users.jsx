@@ -20,12 +20,15 @@ const Users = () => {
     dispatch(usersThunk(page));
   }, [page]);
 
-  const preloader = loading? <Spinner/> : <View users={users}/>;
+  const preloader = loading? <Spinner/> : null;
   const hiddenButton = page < totalPages ? "" : "hidden";
 
   return (
     <div className="w-full text-center grid place-items-center px-2 sm:px-0 pt-10 pb-7">
       <h2 className="text-4xl font-semibold my-5">Working with GET request</h2> 
+      <ul className="max-w-[740px] grid grid-cols-1 sm:grid-cols-2 place-items-center">
+        {users && users.map((user) => (<UserCard key={user.id} user={user} />))}
+      </ul>
       {preloader}
       <div className={hiddenButton}>
       <Button handler={showMore}>
@@ -35,14 +38,5 @@ const Users = () => {
     </div>
   );
 };
-
-
-const View = ({users}) => {
-  return (
-    <ul className="max-w-[740px] grid grid-cols-1 sm:grid-cols-2 place-items-center">
-      {users && users.map((user) => (<UserCard key={user.id} user={user} />))}
-    </ul>
-  )
-}
 
 export default Users;

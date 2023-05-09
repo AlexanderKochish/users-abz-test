@@ -1,20 +1,19 @@
-import React, { useState } from "react";
 import uploadImg from "../../assets/5007170.png";
 import { useEffect } from "react";
 import Button from "../UI/Button";
-import { AppService } from "../../service";
 import PositionsInputs from "./PositionsInputs";
+import { useDispatch, useSelector } from "react-redux";
+import { positionsThunk } from "../../store/slices/positionsSlice";
+import { tokenThunk } from "../../store/slices/tokenSlice";
 
 const Form = () => {
-  const [token, setToken] = useState("");
-  const [positions, setPositions] = useState([]);
-  const appService = new AppService()
+  const { positions } = useSelector(state => state.positions)
+  const { token } = useSelector(state => state.token)
+  const dispatch = useDispatch()
   
   const getTokenAndPositions = async () => {
-    const { token } = await appService.serviceFetch('token')
-    const { positions } = await appService.serviceFetch('positions')
-    setToken(token)
-    setPositions(positions);
+    dispatch(tokenThunk())
+    dispatch(positionsThunk()) 
   };
 
   const createUser = async (e) => {
