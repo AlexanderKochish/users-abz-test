@@ -2,7 +2,6 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { AppService } from "../../service";
 const { serviceFetch } = new AppService()
 
-
 export const usersThunk = createAsyncThunk(
     'users/usersThunk',
   async (page) => {
@@ -21,7 +20,8 @@ const initialState = {
     totalPages: null,
     loading: true,
     activeModal: false,  
-    error: null
+    error: null,
+    newUser: {}
 }
 
 const usersSlice = createSlice({

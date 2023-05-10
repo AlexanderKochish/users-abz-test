@@ -5,6 +5,7 @@ import PositionsInputs from "./PositionsInputs";
 import { useDispatch, useSelector } from "react-redux";
 import { positionsThunk } from "../../store/slices/positionsSlice";
 import { tokenThunk } from "../../store/slices/tokenSlice";
+import { createNewUser } from "../../store/slices/userSlice";
 
 const Form = () => {
   const { positions } = useSelector(state => state.positions)
@@ -15,33 +16,15 @@ const Form = () => {
     dispatch(tokenThunk())
     dispatch(positionsThunk()) 
   };
-
-  const createUser = async (e) => {
-    e.preventDefault()
-    const userForm = e.target;
-    const formData = new FormData(userForm);
-    const res = await fetch(`${import.meta.env.VITE_BASE_URL}users`, {
-      method: "POST",
-      body: formData,
-      headers: {
-        "Authorization": "Bearer " + token
-      }, 
-    });
-    if(res.ok){
-      alert("New User Created")
-    }else{
-      alert("Pleace add to all fields on inputs")
-    }
-    userForm.querySelectorAll('input','input[type=radio]')
-    .forEach( el => {
-        if(el.value) el.value = '';
-        if(el.checked) el.checked = false;
-      })
-  };
-
+  
   useEffect(() => {
     getTokenAndPositions()
   }, []);
+
+  const createUser = async(e) =>{ 
+    e.preventDefault()
+    dispatch(createNewUser({e,token}))
+  }
 
   return (
     <div className="w-full grid place-items-center pt-2 pb-10">
