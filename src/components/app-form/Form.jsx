@@ -66,7 +66,7 @@ const Form = () => {
           htmlFor="img"
           className="flex items-center cursor-pointer bg-blue-300 w-full hover:bg-blue-400 duration-200"
         >
-          <img className="w-10 h-10 mr-5" src={uploadImg} alt="img" />
+          <img className="w-[40px] h-[40px] mr-5" src={uploadImg} alt="img" />
           <strong>Upload Your Photo</strong>
         </label>
         <input id="img" name="photo" type="file" className="hidden" />

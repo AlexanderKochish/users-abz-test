@@ -16,7 +16,7 @@ const UserCard = ({user}) => {
       className="bg-white shadow-md rounded-lg p-2 flex flex-col m-2 items-center justify-around w-60 sm:w-80 min-h-40 overflow-hidden hover:bg-yellow-200 duration-200 cursor-pointer"
     >
       <img
-        className="w-16 h-16 rounded-[50%]"
+        className="w-[64px] h-[64px] rounded-[50%]"
         src={`${import.meta.env.VITE_BASE_URL}${user.photo}`}
         alt="avatar"
       />
