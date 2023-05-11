@@ -9,7 +9,7 @@ import { createNewUser } from "../../store/slices/userSlice";
 
 const Form = () => {
   const[nameError,setNameErr] = useState('')
-  const[emailErrr,setEmailErr] = useState('')
+  const[emailError,setEmailErr] = useState('')
   const[phoneError,setPhoneErr] = useState('')
   const[photoError,setPhotoErr] = useState('')
   const[name,setName] = useState('')
@@ -49,7 +49,6 @@ const Form = () => {
     }else{
       setPhoneErr('')
     }
-
     if(!photo || photo.size > 500000){
       return setPhotoErr('Photo must be required and max size 500 kilobytes')
     }else{
@@ -82,7 +81,7 @@ const Form = () => {
         <label className="font-semibold">
           Email
         </label>
-        {emailErrr?<span className="text-red-500">Invalid Email</span>:''}
+        {emailError?<span className="text-red-500">Invalid Email</span>:''}
         <input
           type="email"
           name="email"
