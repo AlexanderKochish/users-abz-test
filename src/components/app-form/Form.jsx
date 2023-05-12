@@ -95,7 +95,7 @@ const Form = () => {
         </label>
         {phoneError?<span className="text-red-500">Invalid Phone number</span>:''}
         <input
-          type="phone"
+          type="text"
           name="phone"
           placeholder="Your Phone"
           className="p-2 w-full outline-yellow-500 bg-cyan-100"
